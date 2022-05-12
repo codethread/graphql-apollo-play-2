@@ -1,0 +1,15 @@
+overwrite: true
+schema: "http://localhost:4000"
+documents: "client/src/**/*.tsx"
+generates:
+  client/src/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+  server/resolvers-types.ts:
+    config:
+      useIndexSignature: true
+    plugins:
+      - "typescript"
+      - "typescript-resolvers"

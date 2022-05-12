@@ -54,6 +54,8 @@ module.exports = {
         'react/require-default-props': 'off',
         // react 18 doesn't need this
         'react/react-in-jsx-scope': 'off',
+        // allow gql literals
+        '@typescript-eslint/no-unused-expressions': ['error', { "allowTaggedTemplates": true }],
         '@typescript-eslint/no-floating-promises': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/no-unused-params': 'off',

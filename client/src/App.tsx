@@ -1,7 +1,7 @@
-import { Component, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ApolloClient, ApolloProvider, gql, InMemoryCache, useQuery } from '@apollo/client';
-import logo from './logo.svg';
 import './App.css';
+import { useBooksQuery } from './graphql';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000',
@@ -22,15 +22,18 @@ function App(): JSX.Element {
 
 export default App;
 
-export function Fun(): JSX.Element {
-  const { loading, data, error } = useQuery(gql`
-    query ExampleQuery {
-      books {
-        author
-        title
-      }
+gql`
+  query Books {
+    books {
+      title
+      author
     }
-  `);
+  }
+`;
+
+export function Fun(): JSX.Element {
+  // const { data, loading, error } = use();
+  const { loading, data, error } = useBooksQuery();
 
   if (error) {
     return <p>ah</p>;
@@ -38,5 +41,12 @@ export function Fun(): JSX.Element {
   if (loading) {
     return <p>zzz</p>;
   }
-  return <div>{JSON.stringify(data, null, 2)}</div>;
+  // return <div>{JSON.stringify(data, null, 2)}</div>;
+  return (
+    <div>
+      {data?.books.map((b) => (
+        <p key={b.title}>{b.title}</p>
+      ))}
+    </div>
+  );
 }
