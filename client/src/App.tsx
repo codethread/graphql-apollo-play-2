@@ -1,9 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
   const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    fetch('http://localhost:4000')
+      .then((r) => r.json())
+      .then(console.log)
+      .catch(console.error);
+  }, []);
 
   return (
     <div className="App">
