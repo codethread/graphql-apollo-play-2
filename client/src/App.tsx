@@ -1,52 +1,42 @@
-import { useEffect, useState } from 'react';
+import { Component, useEffect, useState } from 'react';
+import { ApolloClient, ApolloProvider, gql, InMemoryCache, useQuery } from '@apollo/client';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0);
+const client = new ApolloClient({
+  uri: 'http://localhost:4000',
+  cache: new InMemoryCache(),
+});
 
-  useEffect(() => {
-    fetch('http://localhost:4000')
-      .then((r) => r.json())
-      .then(console.log)
-      .catch(console.error);
-  }, []);
+function App(): JSX.Element {
+  const [count, setCount] = useState(0);
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+      <ApolloProvider client={client}>
+        <Fun />
+      </ApolloProvider>
     </div>
   );
 }
 
 export default App;
+
+export function Fun(): JSX.Element {
+  const { loading, data, error } = useQuery(gql`
+    query ExampleQuery {
+      books {
+        author
+        title
+      }
+    }
+  `);
+
+  if (error) {
+    return <p>ah</p>;
+  }
+  if (loading) {
+    return <p>zzz</p>;
+  }
+  return <div>{JSON.stringify(data, null, 2)}</div>;
+}
