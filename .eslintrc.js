@@ -1,4 +1,13 @@
-const commonIgnore = ['node_modules', 'temp', 'build', 'reports', 'dist', 'public'];
+const commonIgnore = [
+  'node_modules',
+  'temp',
+  'build',
+  'reports',
+  'dist',
+  'public',
+  'client/src/graphql.ts',
+  'server/src/schema/resolvers-types.ts',
+];
 
 module.exports = {
   root: true,
@@ -47,6 +56,7 @@ module.exports = {
         'prettier',
       ],
       rules: {
+        'no-console': 'off',
         'no-underscore-dangle': 'off',
         'no-void': 'off',
         'react/destructuring-assignment': 'off',
@@ -55,7 +65,7 @@ module.exports = {
         // react 18 doesn't need this
         'react/react-in-jsx-scope': 'off',
         // allow gql literals
-        '@typescript-eslint/no-unused-expressions': ['error', { "allowTaggedTemplates": true }],
+        '@typescript-eslint/no-unused-expressions': ['error', { allowTaggedTemplates: true }],
         '@typescript-eslint/no-floating-promises': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/no-unused-params': 'off',
@@ -69,12 +79,13 @@ module.exports = {
         '@typescript-eslint/explicit-module-boundary-types': 'error',
         // unlikely to be a problem as I avoid `this`
         '@typescript-eslint/unbound-method': 'off',
-        '@typescript-eslint/consistent-type-assertions': [
-          'error',
-          {
-            assertionStyle: 'never',
-          },
-        ],
+        '@typescript-eslint/consistent-type-assertions': 'off',
+        // '@typescript-eslint/consistent-type-assertions': [
+        //   'error',
+        //   {
+        //     assertionStyle: 'never',
+        //   },
+        // ],
         '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
         '@typescript-eslint/explicit-member-accessibility': [
           'error',

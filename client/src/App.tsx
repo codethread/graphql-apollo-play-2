@@ -1,16 +1,18 @@
-import { useState } from 'react';
-import { ApolloClient, ApolloProvider, gql, InMemoryCache, useQuery } from '@apollo/client';
+import { ApolloClient, ApolloProvider, gql, InMemoryCache } from '@apollo/client';
 import './App.css';
 import { useBooksQuery } from './graphql';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000',
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    possibleTypes: {
+      // need to describe unions and interfaces - which is annoying
+      Member: ['Author', 'Reader'],
+    },
+  }),
 });
 
 function App(): JSX.Element {
-  const [count, setCount] = useState(0);
-
   return (
     <div className="App">
       <ApolloProvider client={client}>
@@ -23,30 +25,41 @@ function App(): JSX.Element {
 export default App;
 
 gql`
-  query Books {
+  query Books($userId: ID!) {
     books {
       title
-      author
+      author {
+        name
+      }
+    }
+    user(id: $userId) {
+      ... on Member {
+        name
+        reviews {
+          comment
+        }
+      }
     }
   }
 `;
 
 export function Fun(): JSX.Element {
-  // const { data, loading, error } = use();
-  const { loading, data, error } = useBooksQuery();
+  const { loading, data, error } = useBooksQuery({ variables: { userId: '1' } });
 
   if (error) {
     return <p>ah</p>;
   }
+
   if (loading) {
     return <p>zzz</p>;
   }
-  // return <div>{JSON.stringify(data, null, 2)}</div>;
+
   return (
     <div>
       {data?.books.map((b) => (
         <p key={b.title}>{b.title}</p>
       ))}
+      {data?.user?.name && <p>user is {data.user.name}</p>}
     </div>
   );
 }

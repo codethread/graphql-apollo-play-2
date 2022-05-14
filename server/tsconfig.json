@@ -1,5 +1,5 @@
 {
- "extends": "../tsconfig.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
@@ -10,5 +10,9 @@
     "sourceMap": true,
     "outDir": "dist",
     "baseUrl": "."
+  },
+  "ts-node": {
+    // don't throw errors, just log them - makes prototyping much easier, and given the use of gql needs the server, we always want a schema
+    "logError": true
   }
 }

@@ -7,9 +7,16 @@ generates:
       - "typescript"
       - "typescript-operations"
       - "typescript-react-apollo"
-  server/resolvers-types.ts:
+  server/src/schema/resolvers-types.ts:
     config:
       useIndexSignature: true
+      contextType: server/src/main#Context
+      mappers:
+        Book: server/src/models#BookModel
+        Author: server/src/models#AuthorModel
+        Review: server/src/models#ReviewModel
+        Reader: server/src/models#ReaderModel
+        User: server/src/models#UserModel
     plugins:
       - "typescript"
       - "typescript-resolvers"
